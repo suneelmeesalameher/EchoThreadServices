@@ -1,0 +1,38 @@
+{
+  "name": "echothreadservices",
+  "version": "1.0.0",
+  "description": "Back-end API's for Friendly web chat application(\"EchoThread\").",
+  "main": "index.js",
+  "scripts": {
+    "devStart": "nodemon server.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/suneelmeesalameher/EchoThreadServices.git"
+  },
+  "author": "Meher",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/suneelmeesalameher/EchoThreadServices/issues"
+  },
+  "homepage": "https://github.com/suneelmeesalameher/EchoThreadServices#readme",
+  "dependencies": {
+    "express": "^4.18.2",
+    "firebase": "^10.5.0",
+    "firebase-admin": "^11.11.0",
+    "mongoose": "^7.6.3",
+    "uuid": "^9.0.1"
+  },
+  "devDependencies": {
+    "dotenv": "^16.3.1",
+    "nodemon": "^3.0.1",
+    "cookie-parser": "~1.4.4",
+    "debug": "~2.6.9",
+    "express": "~4.16.1",
+    "http-errors": "~1.6.3",
+    "jade": "~1.11.0",
+    "mongoose": "^7.3.1",
+    "morgan": "~1.9.1"
+  }
+}
