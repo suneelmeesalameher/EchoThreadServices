@@ -18,21 +18,18 @@
   },
   "homepage": "https://github.com/suneelmeesalameher/EchoThreadServices#readme",
   "dependencies": {
-    "express": "^4.18.2",
-    "firebase": "^10.5.0",
-    "firebase-admin": "^11.11.0",
     "mongoose": "^7.6.3",
     "uuid": "^9.0.1"
   },
   "devDependencies": {
-    "dotenv": "^16.3.1",
-    "nodemon": "^3.0.1",
     "cookie-parser": "~1.4.4",
     "debug": "~2.6.9",
-    "express": "~4.16.1",
+    "dotenv": "^16.3.1",
+    "express": "^4.18.2",
     "http-errors": "~1.6.3",
-    "jade": "~1.11.0",
+    "jade": "^1.9.2",
     "mongoose": "^7.3.1",
-    "morgan": "~1.9.1"
+    "morgan": "~1.9.1",
+    "nodemon": "^3.0.1"
   }
 }
