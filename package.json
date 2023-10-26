@@ -1,5 +1,5 @@
 {
-  "name": "echothreadservices",
+  "name": "EchoThreadServices",
   "version": "1.0.0",
   "description": "Back-end API's for Friendly web chat application(\"EchoThread\").",
   "main": "index.js",
