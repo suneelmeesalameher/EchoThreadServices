@@ -35,7 +35,27 @@ router.post("/", async (req, res) => {
     const newUser = await users.save();
     res.status(201).json(newUser);
   } catch (err) {
-    res.status(400).json({ message: err.message });
+    res.status(400).json({ error: "Email must be unique" });
+  }
+});
+
+/**Login */
+router.post("/login", async (req, res) => {
+  try {
+    emailId = req.body.emailId;
+    password = req.body.password;
+    const Users = await User.findOne({ emailId });
+    if (!Users) {
+      return res.status(404).json({ error: "User not found" });
+    }
+
+    if (Users.password !== password) {
+      return res.status(401).json({ error: "Incorrect password" });
+    }
+
+    res.json({ message: "Login successful" });
+  } catch (error) {
+    res.status(500).json({ error: "Server error" });
   }
 });
 
