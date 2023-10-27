@@ -3,6 +3,7 @@ const express = require("express");
 const uuid = require("uuid");
 const mongoose = require("mongoose");
 var usersRouter = require("./routes/users_routes");
+var chatRouter = require("./routes/chat_routes");
 
 const port = 6000;
 var app = express();
@@ -15,6 +16,7 @@ app.use((req, res, next) => {
   next();
 });
 app.use("/user", usersRouter);
+app.use("/chat", chatRouter);
 
 mongoose.set("strictQuery", false);
 mongoose
