@@ -2,6 +2,7 @@ var express = require("express");
 var router = express.Router();
 const uuid = require("uuid");
 var User = require("../models/user");
+var Chat = require("../models/chat");
 
 /* GET users listing. */
 router.get("/", async (req, res) => {
@@ -26,16 +27,30 @@ router.get("/:emailId", async (req, res) => {
 
 /*POST Create users */
 router.post("/", async (req, res) => {
+  const userId = uuid.v1();
   const users = await User({
-    userId: uuid.v1(),
+    userId: userId,
     emailId: req.body.emailId,
     password: req.body.password,
+  });
+  const chats = await Chat({
+    userId: userId,
+    emailId: req.body.emailId,
+    friends: [],
+    recieved: [],
+    chat: [],
   });
   try {
     const newUser = await users.save();
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ error: "Email must be unique" });
+  }
+  try {
+    const newChat = await chats.save();
+    //res.status(201).json(newChat);
+  } catch (err) {
+    res.status(500).json({ error: err.message });
   }
 });
 
@@ -56,6 +71,7 @@ router.post("/login", async (req, res) => {
     res.json({
       message: "Login successful",
       data: {
+        userId: Users.userId,
         emailId: emailId,
       },
     });
