@@ -82,6 +82,7 @@ router.get("/:emailId/:friend", async (req, res) => {
       if (element.friends == req.params.friend) {
         //console.log(element);
         var data = {
+          friends: req.params.friend,
           chat: element.chat,
           timestamp: element.timestamp,
         };
@@ -91,6 +92,7 @@ router.get("/:emailId/:friend", async (req, res) => {
     chatDataSent.forEach((element) => {
       if (element.friends == req.params.friend) {
         var data = {
+          friends: req.params.emailId,
           chat: element.chat,
           timestamp: element.timestamp,
         };
