@@ -122,8 +122,8 @@ router.post("/friend", async (req, res) => {
       timestamp: currentTimestamp,
     };
 
-    userChats.recieved.push(userData);
-    friendChats.sent.push(friendData);
+    userChats.sent.push(userData);
+    friendChats.recieved.push(friendData);
     await userChats.save();
     await friendChats.save();
     res.status(201).json(userChats);
