@@ -40,3 +40,15 @@ CHAT APIS-
       "emailId": "meher@gmail.com",
       "friends" : "mehe@gmail.com"
     }
+
+
+  Get chat between two friends-
+    http://localhost:6000/chat/:emailId/:friend
+
+  Post for sending a message to a friend-
+    http://localhost:6000/chat/friend
+    req.body={
+      "emailId" : "sun@gmail.com",
+      "friends":"ved@gmail.com",
+      "message" : "hello bro"
+    }
