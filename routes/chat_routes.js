@@ -20,6 +20,9 @@ router.post("/save", async (req, res) => {
       const existingChat = await Chat.findOne({
         emailId: req.body.emailId,
       });
+      const addUserAsFriendToFriend = await Chat.findOne({
+        emailId: friends,
+      });
 
       if (existingChat) {
         if (existingChat.friends.includes(friends)) {
@@ -27,9 +30,10 @@ router.post("/save", async (req, res) => {
         } else {
           // If the document exists, update the friends array
           existingChat.friends.push(friends);
-
+          addUserAsFriendToFriend.friends.push(req.body.emailId);
           // Save the updated document
           const updatedChat = await existingChat.save();
+          await addUserAsFriendToFriend.save();
 
           res.status(201).json(updatedChat);
         }
@@ -76,7 +80,7 @@ router.get("/:emailId/:friend", async (req, res) => {
     var datasent = [];
     chatDataRecieved.forEach((element) => {
       if (element.friends == req.params.friend) {
-        console.log(element);
+        //console.log(element);
         var data = {
           chat: element.chat,
           timestamp: element.timestamp,
