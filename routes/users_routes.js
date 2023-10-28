@@ -37,7 +37,18 @@ router.post("/", async (req, res) => {
     userId: userId,
     emailId: req.body.emailId,
     friends: [],
-    recieved: [],
+    recieved: [
+      // {
+      //   friends: "prajesh@gmail.com",
+      //   chat: "hello",
+      //   time: "10",
+      // },
+      // {
+      //   friends: "prajesh@gmail.com",
+      //   chat: "hello!",
+      //   time: "10",
+      // },
+    ],
     chat: [],
   });
   try {

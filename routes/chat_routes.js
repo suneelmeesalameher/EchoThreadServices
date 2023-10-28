@@ -66,4 +66,66 @@ router.get("/:emailId", async (req, res) => {
   }
 });
 
+//**Get chat data */
+router.get("/:emailId/:friend", async (req, res) => {
+  try {
+    const Chats = await Chat.findOne({ emailId: req.params.emailId });
+    var chatDataRecieved = Chats.recieved;
+    var chatDataSent = Chats.sent;
+    var datarecieved = [];
+    var datasent = [];
+    chatDataRecieved.forEach((element) => {
+      if (element.friends == req.params.friend) {
+        console.log(element);
+        var data = {
+          chat: element.chat,
+          timestamp: element.timestamp,
+        };
+        datarecieved.push(data);
+      }
+    });
+    chatDataSent.forEach((element) => {
+      if (element.friends == req.params.friend) {
+        var data = {
+          chat: element.chat,
+          timestamp: element.timestamp,
+        };
+        datasent.push(data);
+      }
+    });
+    res.json({ recieved: datarecieved, sent: datasent });
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
+//**sending message from user end */
+router.post("/friend", async (req, res) => {
+  try {
+    const userChats = await Chat.findOne({ emailId: req.body.emailId });
+    const friendChats = await Chat.findOne({ emailId: req.body.friends });
+    var sent = req.body.message;
+    const currentTimestamp = Date.now();
+    //console.log("Current timestamp:", currentTimestamp);
+    var userData = {
+      friends: req.body.friends,
+      chat: sent,
+      timestamp: currentTimestamp,
+    };
+    var friendData = {
+      friends: req.body.emailId,
+      chat: sent,
+      timestamp: currentTimestamp,
+    };
+
+    userChats.recieved.push(userData);
+    friendChats.sent.push(friendData);
+    await userChats.save();
+    await friendChats.save();
+    res.status(201).json(userChats);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+  }
+});
+
 module.exports = router;
