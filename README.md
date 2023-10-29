@@ -10,7 +10,7 @@ USER APIS-
 
   Search bar--
     Get user-
-      https://echothread.onrender.com/{:emailId}
+      https://echothread.onrender.com/user/:emailId
 
   Create User-
     Post user-
