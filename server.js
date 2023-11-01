@@ -7,6 +7,7 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const usersRouter = require("./routes/users_routes");
 const chatRouter = require("./routes/chat_routes");
+const { Socket } = require("dgram");
 
 const port = 6000;
 const app = express();
@@ -43,6 +44,10 @@ const io = new Server(server, {
     origin: "*",
     methods: ["GET", "POST"],
   },
+});
+
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
 });
 
 // server.listen(6001, () => {
