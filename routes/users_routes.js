@@ -103,7 +103,7 @@ router.post("/login", async (req, res) => {
       data: {
         userId: Users.userId,
         emailId: emailId,
-        token: token,
+        //token: token,
       },
     });
   } catch (error) {
