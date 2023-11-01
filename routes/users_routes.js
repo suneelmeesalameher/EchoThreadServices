@@ -1,11 +1,14 @@
 var express = require("express");
+require("dotenv").config();
 const crypto = require("crypto");
+//const jwt = require("jsonwebtoken");
 var router = express.Router();
 const uuid = require("uuid");
 var User = require("../models/user");
 var Chat = require("../models/chat");
 const { stringify } = require("querystring");
 
+//const secretKey = process.env.secretKey;
 /* GET users listing. */
 router.get("/", async (req, res) => {
   try {
@@ -90,12 +93,17 @@ router.post("/login", async (req, res) => {
     if (Users.password !== hashedPasswordWithSalt) {
       return res.status(401).json({ error: "Incorrect password" });
     }
+    // // Generate a JWT token after successful login
+    // const token = jwt.sign({ userId: Users.userId, emailId }, secretKey, {
+    //   expiresIn: "1h",
+    // });
 
     res.json({
       message: "Login successful",
       data: {
         userId: Users.userId,
         emailId: emailId,
+        token: token,
       },
     });
   } catch (error) {
