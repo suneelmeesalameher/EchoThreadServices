@@ -45,6 +45,10 @@ const io = new Server(server, {
   },
 });
 
+io.on("connection", (socket) => {
+  console.log(`User connected: ${socket.id}`);
+});
+
 // server.listen(6001, () => {
 //   console.log("SERVER IS RUNNING");
 // });
