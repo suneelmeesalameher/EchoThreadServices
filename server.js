@@ -7,7 +7,6 @@ const { Server } = require("socket.io");
 const cors = require("cors");
 const usersRouter = require("./routes/users_routes");
 const chatRouter = require("./routes/chat_routes");
-const { Socket } = require("dgram");
 
 const port = 6000;
 const app = express();
