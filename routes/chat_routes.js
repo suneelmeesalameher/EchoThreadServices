@@ -3,6 +3,7 @@ var router = express.Router();
 const uuid = require("uuid");
 var Chat = require("../models/chat");
 var User = require("../models/user");
+//var verifyToken = require("../token");
 
 /**Post - save user friend */
 router.post("/save", async (req, res) => {
