@@ -6,7 +6,9 @@ var router = express.Router();
 const uuid = require("uuid");
 var User = require("../models/user");
 var Chat = require("../models/chat");
+var SharedKey = require("../models/key");
 const { stringify } = require("querystring");
+const sharedKey = require("../models/key");
 
 //const secretKey = process.env.secretKey;
 /* GET users listing. */
@@ -56,16 +58,18 @@ router.post("/", async (req, res) => {
     recieved: [],
     chat: [],
   });
+  const sharedKey = await SharedKey({
+    emailId: req.body.emailId,
+    friends: [],
+    iv: [],
+  });
   try {
     const newUser = await users.save();
+    await chats.save();
+    await sharedKey.save();
     res.status(201).json(newUser);
   } catch (err) {
     res.status(400).json({ error: "Email must be unique" });
-  }
-  try {
-    await chats.save();
-  } catch (err) {
-    res.status(500).json({ error: err.message });
   }
 });
 

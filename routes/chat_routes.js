@@ -3,6 +3,7 @@ var router = express.Router();
 const uuid = require("uuid");
 var Chat = require("../models/chat");
 var User = require("../models/user");
+var SharedKey = require("../models/key");
 //var verifyToken = require("../token");
 
 /**Post - save user friend */
@@ -45,7 +46,6 @@ router.post("/save", async (req, res) => {
           emailId: req.body.emailId,
           friends: [friends], // Create a new array with the friend
         });
-
         const savedChat = await newChat.save();
         res.status(201).json(savedChat);
       }
