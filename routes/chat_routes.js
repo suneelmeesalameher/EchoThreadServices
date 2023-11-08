@@ -78,17 +78,39 @@ router.post("/save", async (req, res) => {
 
 /**Get - all user friends */
 router.get("/:emailId", async (req, res) => {
+  //var RsaKey = [];
   try {
     const Chats = await Chat.findOne({ emailId: req.params.emailId });
     const sharedKey = await SharedKey.findOne({
       emailId: req.params.emailId,
     });
+    const Users = await User.findOne({
+      emailId: req.params.emailId,
+    });
+    // Chats.friends.forEach(async (element) => {
+    //   const friendData = await User.findOne({
+    //     emailId: element,
+    //   });
+    //   friendRsaKey.push(friendData);
+    // });
+
+    const promises = Chats.friends.map(async (element) => {
+      const friendData = await User.findOne({ emailId: element });
+      return {
+        friends: friendData.emailId,
+        rsaKey: friendData.rsaKey,
+      };
+    });
+
+    const RsaKey = await Promise.all(promises);
+
     res.json({
+      userRsaKey: Users.rsaKey,
       data: {
         friends: Chats.friends,
       },
-
       key: sharedKey.friends,
+      friendRsaKey: RsaKey,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

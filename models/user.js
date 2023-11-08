@@ -15,9 +15,9 @@ const userSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
-  // rsaKey: {
-  //   type: String,
-  // },
+  rsaKey: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", userSchema);
