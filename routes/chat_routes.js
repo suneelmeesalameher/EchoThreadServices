@@ -25,16 +25,35 @@ router.post("/save", async (req, res) => {
       const addUserAsFriendToFriend = await Chat.findOne({
         emailId: friends,
       });
-
+      const sharedKeyUser = await SharedKey.findOne({
+        emailId: req.body.emailId,
+      });
+      const sharedKeyFriend = await SharedKey.findOne({
+        emailId: friends,
+      });
+      const userKey = {
+        friend: friends,
+        key: req.body.key,
+        iv: req.body.iv,
+      };
+      const friendKey = {
+        friend: req.body.emailId,
+        key: req.body.key,
+        iv: req.body.iv,
+      };
       if (existingChat) {
         if (existingChat.friends.includes(friends)) {
           res.status(400).json({ message: "Already friends" });
         } else {
           // If the document exists, update the friends array
           existingChat.friends.push(friends);
+          sharedKeyUser.friends.push(userKey);
+          sharedKeyFriend.friends.push(friendKey);
           addUserAsFriendToFriend.friends.push(req.body.emailId);
           // Save the updated document
           const updatedChat = await existingChat.save();
+          await sharedKeyUser.save();
+          await sharedKeyFriend.save();
           await addUserAsFriendToFriend.save();
 
           res.status(201).json(updatedChat);
@@ -61,10 +80,15 @@ router.post("/save", async (req, res) => {
 router.get("/:emailId", async (req, res) => {
   try {
     const Chats = await Chat.findOne({ emailId: req.params.emailId });
+    const sharedKey = await SharedKey.findOne({
+      emailId: req.params.emailId,
+    });
     res.json({
       data: {
         friends: Chats.friends,
       },
+
+      key: sharedKey.friends,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });

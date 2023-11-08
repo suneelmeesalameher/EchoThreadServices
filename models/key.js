@@ -9,9 +9,6 @@ const sharedKeySchema = new mongoose.Schema({
   friends: {
     type: Array,
   },
-  iv: {
-    type: Array,
-  },
 });
 
 const sharedKey = mongoose.model("sharedKey", sharedKeySchema);

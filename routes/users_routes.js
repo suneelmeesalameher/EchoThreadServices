@@ -61,7 +61,6 @@ router.post("/", async (req, res) => {
   const sharedKey = await SharedKey({
     emailId: req.body.emailId,
     friends: [],
-    iv: [],
   });
   try {
     const newUser = await users.save();
