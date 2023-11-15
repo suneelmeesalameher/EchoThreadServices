@@ -2,8 +2,8 @@
   "name": "echothreadservices",
   "version": "1.0.0",
   "description": "Back-end API's for Friendly web chat application(\"EchoThread\").",
-  "main": "index.js",
   "scripts": {
+    "start": "node server.js",
     "devStart": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
