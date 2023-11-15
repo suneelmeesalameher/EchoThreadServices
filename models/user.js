@@ -18,6 +18,9 @@ const userSchema = new mongoose.Schema({
   rsaKey: {
     type: String,
   },
+  dsKey: {
+    type: String,
+  },
 });
 
 const User = mongoose.model("User", userSchema);

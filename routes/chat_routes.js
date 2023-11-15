@@ -125,6 +125,8 @@ router.get("/:emailId/:friend", async (req, res) => {
     var chatDataSent = Chats.sent;
     var datarecieved = [];
     var datasent = [];
+    const user1 = await User.findOne({ email: req.params.email });
+    const user2 = await User.findOne({ email: req.params.friend });
     chatDataRecieved.forEach((element) => {
       if (element.friends == req.params.friend) {
         //console.log(element);
@@ -136,6 +138,7 @@ router.get("/:emailId/:friend", async (req, res) => {
         datarecieved.push(data);
       }
     });
+    datarecieved.push(user1.dsKey);
     chatDataSent.forEach((element) => {
       if (element.friends == req.params.friend) {
         var data = {
@@ -146,6 +149,7 @@ router.get("/:emailId/:friend", async (req, res) => {
         datasent.push(data);
       }
     });
+    datasent.push(user2.dsKey);
     res.json({ recieved: datarecieved, sent: datasent });
   } catch (err) {
     res.status(500).json({ message: err.message });
