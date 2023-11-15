@@ -2,9 +2,10 @@ require("dotenv").config();
 const express = require("express");
 const mongoose = require("mongoose");
 const http = require("http");
-//const socketIo = require("socket.io");
-const { Server } = require("socket.io");
 const cors = require("cors");
+const { Server } = require("socket.io");
+const expressWs = require("express-ws");
+
 const usersRouter = require("./routes/users_routes");
 const chatRouter = require("./routes/chat_routes");
 
@@ -35,9 +36,10 @@ mongoose
 // Create an HTTP server using Express
 const server = http.createServer(app);
 
-// // Create a socket.io server on the same HTTP server
-// const io = socketIo(server);
+// Create WebSocket support using express-ws
+const wsInstance = expressWs(app, server);
 
+// Initialize the WebSocket server
 const io = new Server(server, {
   cors: {
     origin: "*",
@@ -45,29 +47,25 @@ const io = new Server(server, {
   },
 });
 
-// server.listen(6001, () => {
-//   console.log("SERVER IS RUNNING");
-// });
-
-// // Socket.io connection handling
-// io.on("connection", (socket) => {
-//   console.log("Socket.io client connected");
-
-//   // Handle socket.io messages
-//   socket.on("message", (message) => {
-//     console.log(`Received message from socket.io client: ${message}`);
-
-//     // Example: Broadcast the received message to all connected socket.io clients
-//     socket.broadcast.emit("message", message);
-//   });
-
-//   // Handle socket.io client disconnection
-//   socket.on("disconnect", () => {
-//     console.log("Socket.io client disconnected");
-//   });
-// });
-
 // Start the HTTP server
 server.listen(port, () => {
   console.log(`Server is running on port ${port}`);
+});
+
+// Socket.io connection handling
+io.on("connection", (socket) => {
+  console.log("Socket.io client connected");
+
+  // Handle socket.io messages
+  socket.on("message", (message) => {
+    console.log(`Received message from socket.io client: ${message}`);
+
+    // Example: Broadcast the received message to all connected socket.io clients
+    socket.broadcast.emit("message", message);
+  });
+
+  // Handle socket.io client disconnection
+  socket.on("disconnect", () => {
+    console.log("Socket.io client disconnected");
+  });
 });

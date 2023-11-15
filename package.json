@@ -20,6 +20,7 @@
   "dependencies": {
     "cors": "^2.8.5",
     "crypto": "^1.0.1",
+    "express-ws": "^5.0.2",
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^7.6.3",
     "socket.io": "^4.7.2",
