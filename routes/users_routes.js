@@ -51,6 +51,7 @@ router.post("/", async (req, res) => {
     emailId: req.body.emailId,
     password: password,
     rsaKey: req.body.rsaKey,
+    dsPublicKey: req.body.dsPublicKey,
   });
   const chats = await Chat({
     userId: userId,

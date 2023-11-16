@@ -18,7 +18,7 @@ const userSchema = new mongoose.Schema({
   rsaKey: {
     type: String,
   },
-  dsKey: {
+  dsPublicKey: {
     type: String,
   },
 });
