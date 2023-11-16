@@ -94,7 +94,7 @@ router.get("/:emailId", async (req, res) => {
     //   friendRsaKey.push(friendData);
     // });
 
-    const promises = Chats.friends.map(async (element) => {
+    const RSA = Chats.friends.map(async (element) => {
       const friendData = await User.findOne({ emailId: element });
       return {
         friends: friendData.emailId,
@@ -102,7 +102,16 @@ router.get("/:emailId", async (req, res) => {
       };
     });
 
-    const RsaKey = await Promise.all(promises);
+    const DS = Chats.friends.map(async (element) => {
+      const friendData = await User.findOne({ emailId: element });
+      return {
+        friends: friendData.emailId,
+        rsaKey: friendData.dsPublicKey,
+      };
+    });
+
+    const RsaKey = await Promise.all(RSA);
+    const dsPublicKey = await Promise.all(DS);
 
     res.json({
       userRsaKey: Users.rsaKey,
@@ -111,6 +120,7 @@ router.get("/:emailId", async (req, res) => {
       },
       key: sharedKey.friends,
       friendRsaKey: RsaKey,
+      dsPublicKey: dsPublicKey,
     });
   } catch (err) {
     res.status(500).json({ message: err.message });
@@ -125,6 +135,8 @@ router.get("/:emailId/:friend", async (req, res) => {
     var chatDataSent = Chats.sent;
     var datarecieved = [];
     var datasent = [];
+    const user1 = await User.findOne({ email: req.params.email });
+    const user2 = await User.findOne({ email: req.params.friend });
     chatDataRecieved.forEach((element) => {
       if (element.friends == req.params.friend) {
         //console.log(element);
@@ -132,6 +144,7 @@ router.get("/:emailId/:friend", async (req, res) => {
           friends: req.params.friend,
           chat: element.chat,
           timestamp: element.timestamp,
+          dsValue: element.dsValue,
         };
         datarecieved.push(data);
       }
@@ -142,6 +155,7 @@ router.get("/:emailId/:friend", async (req, res) => {
           friends: req.params.emailId,
           chat: element.chat,
           timestamp: element.timestamp,
+          dsValue: element.dsValue,
         };
         datasent.push(data);
       }
@@ -164,11 +178,13 @@ router.post("/friend", async (req, res) => {
       friends: req.body.friends,
       chat: sent,
       timestamp: currentTimestamp,
+      dsValue: req.body.dsValue,
     };
     var friendData = {
       friends: req.body.emailId,
       chat: sent,
       timestamp: currentTimestamp,
+      dsValue: req.body.dsValue,
     };
 
     userChats.sent.push(userData);
