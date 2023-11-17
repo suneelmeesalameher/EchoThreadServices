@@ -106,7 +106,7 @@ router.get("/:emailId", async (req, res) => {
       const friendData = await User.findOne({ emailId: element });
       return {
         friends: friendData.emailId,
-        rsaKey: friendData.dsPublicKey,
+        dsPublicKey: friendData.dsPublicKey,
       };
     });
 
