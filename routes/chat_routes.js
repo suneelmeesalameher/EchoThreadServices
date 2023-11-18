@@ -5,9 +5,10 @@ var Chat = require("../models/chat");
 var User = require("../models/user");
 var SharedKey = require("../models/key");
 //var verifyToken = require("../token");
+const auth = require("../auth");
 
 /**Post - save user friend */
-router.post("/save", async (req, res) => {
+router.post("/save", auth, async (req, res) => {
   const friends = req.body.friends;
   //   Wont require the bottom part as the search api is gonna send the users list that are present
   //   try {
@@ -77,7 +78,7 @@ router.post("/save", async (req, res) => {
 });
 
 /**Get - all user friends */
-router.get("/:emailId", async (req, res) => {
+router.get("/:emailId", auth, async (req, res) => {
   //var RsaKey = [];
   try {
     const Chats = await Chat.findOne({ emailId: req.params.emailId });
@@ -128,7 +129,7 @@ router.get("/:emailId", async (req, res) => {
 });
 
 //**Get chat data */
-router.get("/:emailId/:friend", async (req, res) => {
+router.get("/:emailId/:friend", auth, async (req, res) => {
   try {
     const Chats = await Chat.findOne({ emailId: req.params.emailId });
     var chatDataRecieved = Chats.recieved;
@@ -167,7 +168,7 @@ router.get("/:emailId/:friend", async (req, res) => {
 });
 
 //**sending message from user end */
-router.post("/friend", async (req, res) => {
+router.post("/friend", auth, async (req, res) => {
   try {
     const userChats = await Chat.findOne({ emailId: req.body.emailId });
     const friendChats = await Chat.findOne({ emailId: req.body.friends });

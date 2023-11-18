@@ -1,7 +1,7 @@
 var express = require("express");
 require("dotenv").config();
 const crypto = require("crypto");
-//const jwt = require("jsonwebtoken");
+const jwt = require("jsonwebtoken");
 var router = express.Router();
 const uuid = require("uuid");
 var User = require("../models/user");
@@ -9,6 +9,7 @@ var Chat = require("../models/chat");
 var SharedKey = require("../models/key");
 const { stringify } = require("querystring");
 const sharedKey = require("../models/key");
+const auth = require("../auth");
 
 //const secretKey = process.env.secretKey;
 /* GET users listing. */
@@ -23,7 +24,7 @@ router.get("/", async (req, res) => {
 
 /* GET search users. */
 //give emailId here
-router.get("/:emailId", async (req, res) => {
+router.get("/:emailId", auth, async (req, res) => {
   try {
     const Users = await User.find({ emailId: { $regex: req.params.emailId } });
     res.json(Users);
@@ -103,7 +104,17 @@ router.post("/login", async (req, res) => {
     //   expiresIn: "1h",
     // });
 
+    // Create token
+    const token = jwt.sign(
+      { user_id: Users.userId, emailId },
+      process.env.secretKey,
+      {
+        expiresIn: "1h",
+      }
+    );
+    console.log(token);
     res.json({
+      token: token,
       message: "Login successful",
       data: {
         userId: Users.userId,
