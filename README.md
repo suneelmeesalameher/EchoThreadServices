@@ -45,7 +45,7 @@ While the project achieved its objectives, continuous improvement can be made in
 - Mozilla Developer Network. (2010, August 20). Web-Crypto. Retrieved from [Web_Crypto_API](https://developer.mozilla.org/en-US/docs/Web/API/Web_Crypto_API)
 
 ## 10. GitHub URLs
-- [Frontend GitHub](https://github.com/prajeshkotian/CryptoProject)
+- [Frontend GitHub](https://github.com/suneelmeesalameher/EchoThreadFE)
 - [Backend GitHub](https://github.com/suneelmeesalameher/EchoThreadServices)
 
 The Echo Threads project represents a commitment to secure software programming, and its success lies in the meticulous implementation of cryptographic techniques and a collaborative development approach.
